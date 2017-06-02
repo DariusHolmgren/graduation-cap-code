@@ -4,14 +4,60 @@
 #define PIN            1
 #define NUMPIXELS      100
 
+////////////////////////////////////////////////////////////
+#define RED    0xFF3855   // 0
+#define ORANGE 0xFA5B3D   // 1
+#define YELLOW 0xFFF700   // 2
+#define GREEN  0xA7F432   // 3
+#define BLUE   0x0048BA   // 4
+#define PURPLE 0x5946B2   // 5
+#define WHITE  0xFFFFFF   // 6
+
+const uint32_t COLORS[7] = {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE, WHITE};
+
+////////////////////////////////////////////////////////////
+
+
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-int delayval = 200; // delay for half a second
+int delayval = 500; // delay for half a second
 
 void setup() {
   pixels.begin();
 }
 
 void loop() {
+
+  // this works
+  uint32_t i = 0;
+  setSubstrip(&pixels, 0, 9, COLORS[i]);
+  pixels.show(); // This sends the updated pixel color to the hardware.
+  delay(delayval); // Delay for a period of time (in milliseconds).
+  pixels.clear();
+
+  i++;
+  setSubstrip(&pixels, 0, 9, COLORS[i]);
+  pixels.show(); // This sends the updated pixel color to the hardware.
+  delay(delayval); // Delay for a period of time (in milliseconds).
+  pixels.clear();
+
+  i++;
+  setSubstrip(&pixels, 0, 9, COLORS[i]);
+  pixels.show(); // This sends the updated pixel color to the hardware.
+  delay(delayval); // Delay for a period of time (in milliseconds).
+  pixels.clear();
+
+  /*
+  // this does not work
+  for(uint32_t i = 0; i<3; i++) {
+    setSubstrip(&pixels, 0, 9, COLORS[i]);
+    pixels.show(); // This sends the updated pixel color to the hardware.
+    delay(delayval); // Delay for a period of time (in milliseconds).
+    pixels.clear();
+  }
+  */
+
+
+  /*
   decrementDelay();
   int x = random(1, 4);
   if (x == 1)
@@ -20,6 +66,7 @@ void loop() {
     line();
   else if (x == 3)
     fade();
+   */
 }
 
 void fade() {
