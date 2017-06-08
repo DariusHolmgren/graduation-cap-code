@@ -5,29 +5,39 @@
 #define NUMPIXELS      100
 
 ////////////////////////////////////////////////////////////
-#define RED    0xFF3855   // 0
-#define ORANGE 0xFA5B3D   // 1
-#define YELLOW 0xFFF700   // 2
-#define GREEN  0xA7F432   // 3
-#define BLUE   0x0048BA   // 4
-#define PURPLE 0x5946B2   // 5
-#define WHITE  0xFFFFFF   // 6
+#define RED     0xFF0000   // 0
+#define ORANGE  0xCC3300   // 1
+#define YELLOW  0xE77200   // 2
+#define GREEN   0x00FF00   // 3
+#define BLUE    0x0000FF   // 4
+#define PURPLE  0x6600cc   // 5
+#define WHITE   0xFFFFFF   // 6
+#define PINK    0xED0A3F   // 7
+#define CYAN    0x00FFFF   // 8
+#define MAGENTA 0xCC00CC   // 9
 
-const uint32_t COLORS[7] = {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE, WHITE};
+
+
+const uint32_t COLORS[10] = {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE, WHITE, PINK, CYAN, MAGENTA};
 uint32_t var = 0;
 ////////////////////////////////////////////////////////////
 
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-int delayval = 200; // delay for half a second
+int delayval = 300; // delay
 
 void setup() {
   pixels.begin();
 }
 
 void loop() {
-  static int var = 0;
-  vline(var++ % 10);
+  //uint32_t cColor = randColor();
+
+  for(int i = 0; i < 10; i++) {
+    box(COLORS[i]);
+    decrementDelay();
+  }
+  
   /*
   var++;
   switch(var % 4) {
@@ -61,8 +71,7 @@ void vline(uint8_t line) {
     delay(500);
 }
 
-void box() {
-  uint32_t cColor = randColor();
+void box(uint32_t cColor) {
   for (int i = 0; i < 5; i++) {
     setSubstrip( 0 + i + (10 * i),  9 - i  + (10 * i), cColor); // top
     setSubstrip(90 + i - (10 * i), 99 - i  - (10 * i), cColor); // bottom
@@ -72,14 +81,11 @@ void box() {
         pixels.setPixelColor(j, cColor);
       }
     }
-      
     swc();
-    delay(200);
   } 
 }
 
-void cross() {
-  uint32_t cColor = randColor();
+void cross(uint32_t cColor) {
   for (int i = 0; i < sqrt(NUMPIXELS); i++) {
     for (int j = 0; j < NUMPIXELS - 1; j++)
       if ((j % 11) == 1)
@@ -88,8 +94,7 @@ void cross() {
   } 
 }
 
-void fade(uint8_t x) {
-  uint32_t cColor = randColor();
+void fade(uint32_t cColor, uint8_t x) {
   uint8_t b = 10;
   setSubstrip(0, NUMPIXELS, cColor);
   
@@ -152,5 +157,16 @@ void setSubstrip(int8_t start,  int end, uint32_t cColor) {
   for(int i = start; i <= end; i++) {
     pixels.setPixelColor(i, cColor);
   }
+}
+
+void mytch_hat(uint32_t cColor){ 
+  while(delayval >= 11) {
+    box(cColor);
+    decrementDelay();
+  }
+
+  fade(cColor, 10);
+  delayval = 300;
+
 }
 
